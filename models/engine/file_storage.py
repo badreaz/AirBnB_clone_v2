@@ -12,6 +12,8 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls:
             objs = {}
+            if type(cls) is str:
+                cls = eval(cls)
             for k, v in self.__objects.items():
                 if type(v) is cls:
                     objs[k] = v
