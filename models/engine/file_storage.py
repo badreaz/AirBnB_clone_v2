@@ -24,7 +24,7 @@ class FileStorage:
 
     def save(self):
         """Saves storage dictionary to file"""
-        with open(self.__file_path, 'w') as f:
+        with open(self.__file_path, 'w', encoding="utf-8") as f:
             temp = {}
             for key, val in self.__objects.items():
                 temp[key] = val.to_dict()
@@ -47,10 +47,12 @@ class FileStorage:
                   }
         try:
             temp = {}
-            with open(self.__file_path, 'r') as f:
+            with open(self.__file_path, 'r', encoding="utf-8") as f:
                 temp = json.load(f)
-            for key, val in temp.items():
-                    self.__objects[key] = classes[val['__class__']](**val)
+                for val in temp.values():
+                    class_name = val['__class__']
+                    del val['__class__']
+                    self.new(classes[class_name](**val))
         except FileNotFoundError:
             pass
 
