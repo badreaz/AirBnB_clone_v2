@@ -13,14 +13,14 @@ class FileStorage:
         if cls:
             objs = {}
             for k, v in self.__objects.items():
-                if type(v).__name__ == cls:
+                if type(v) == cls:
                     objs[k] = v;
             return objs
         return self.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        self.__object["{}.{}".format(type(obj).__name__, obj.id)] = obj
+        self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
 
     def save(self):
         """Saves storage dictionary to file"""
