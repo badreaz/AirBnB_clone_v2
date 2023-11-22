@@ -31,6 +31,7 @@ class BaseModel:
         cls = str(type(self).__name__)
         dic = self.__dict__.copy()
         dic.pop("_sa_instance_state", None)
+        dic.pop("updated_at")
         return '[{}] ({}) {}'.format(cls, self.id, dic)
 
     def save(self):
