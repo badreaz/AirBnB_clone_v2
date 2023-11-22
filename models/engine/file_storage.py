@@ -13,8 +13,8 @@ class FileStorage:
         if cls:
             objs = {}
             for k, v in self.__objects.items():
-                if type(v) == cls:
-                    objs[k] = v;
+                if type(v) is cls:
+                    objs[k] = v
             return objs
         return self.__objects
 

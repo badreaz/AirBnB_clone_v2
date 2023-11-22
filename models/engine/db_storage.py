@@ -19,25 +19,33 @@ class DBStorage():
 
     def __init__(self):
         """ init method """
-        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
-                format(getenv("HBNB_MYSQL_USER"),
-                    getenv("HBNB_MYSQL_PWD"),
-                    getenv("HBNB_MYSQL_HOST"),
-                    getenv("HBNB_MYSQL_DB")), pool_pre_ping=True)
-        if(getenv("HBNB_ENV") == "test"):
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}"
+                                      .format(getenv("HBNB_MYSQL_USER"),
+                                              getenv("HBNB_MYSQL_PWD"),
+                                              getenv("HBNB_MYSQL_HOST"),
+                                              getenv("HBNB_MYSQL_DB")),
+                                      pool_pre_ping=True)
+        if (getenv("HBNB_ENV") == "test"):
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ query on all objects depending on the class name """
-        if cls is not None:
-            objects = self.__session.query(State, City,
-                    User, Place, Review, Amenity).all()
+        if cls is None:
+            classes = [State, City, User, Place, Review, Amenity]
+            for mycls in classes:
+                objects = self.__session.query(mycls).all()
+                dic = {}
+                for obj in objects:
+                    key = "{}.{}".format(type(obj).__name__)
+                    dic[key] = obj
         else:
-            objects = self.__session.query(eval(eval(cls)))
-        dic = {}
-        for obj in objects:
-            key = "{}.{}".format(type(obj).__name__)
-            dic[key] = obj
+            if type(cls) is str:
+                cls = eval(cls)
+            objects = self.__session.query(cls)
+            dic = {}
+            for obj in objects:
+                key = "{}.{}".format(type(obj).__name__)
+                dic[key] = obj
         return dic
 
     def new(self, obj):

@@ -10,9 +10,11 @@ from sqlalchemy.orm import relationship
 
 metadata = Base.metadata
 place_amenity = Table("place_amenity", metadata,
-        Column("place_id", String(60), ForeignKey("places.id"), primary_key=True, nullable=False),
-        Column("amenity_id", String(60), ForeignKey("amenities.id"), primary_key=True, nullable=False)
-        )
+                      Column("place_id", String(60), ForeignKey("places.id"),
+                             primary_key=True, nullable=False),
+                      Column("amenity_id", String(60),
+                             ForeignKey("amenities.id"),
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -30,7 +32,9 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     amenity_ids = []
     reviews = relationship("Reivew", backref="place", cascade="delete")
-    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
+    amenities = relationship("Amenity", secondary="place_amenity",
+                             viewonly=False)
+
     @property
     def reviews(self):
         """ returns the list of Review instances with place_id
@@ -56,5 +60,5 @@ class Place(BaseModel, Base):
     def amenities(self, obj=None):
         """ handles append method for adding an Amenity.id
         to the attribute amenity_ids """
-        if type(obj) == Amenity and obj.id not in self.amenity_ids:
+        if type(obj) is Amenity and obj.id not in self.amenity_ids:
             self.amenity_ids.append(obj.id)
