@@ -1,4 +1,4 @@
-#!/usr/bin//python3
+#!/usr/bin/python3
 """ do_depoy function module """
 import os
 from fabric.api import env, put, run
