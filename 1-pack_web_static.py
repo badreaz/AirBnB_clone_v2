@@ -12,7 +12,7 @@ def do_pack():
     archive = "versions/web_static_{}{}{}{}{}{}.tgz".format(
         today.year, today.month, today.day,
         today.hour, today.minute, today.second)
-    if not os.path.isdir("veersions"):
+    if not os.path.isdir("versions"):
         os.mkdir("versions")
     if local("tar -cvzf {} web_static".format(archive)).failed:
         return None
