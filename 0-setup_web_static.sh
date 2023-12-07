@@ -11,8 +11,8 @@ printf %s "server {
 \tlisten 80 default_server;
 \tlisten [::]:80 default_server;
 \tadd_header X-Served-By $HOSTNAME;
-\troot /var/www/html;
-\tindex index.html index.htm;
+\troot   /var/www/html;
+\tindex  index.html index.htm;
 \tlocation /hbnb_static {
 \t\talias /data/web_static/current;
 \t\tindex index.html index.htm;\n\t}
@@ -20,6 +20,6 @@ printf %s "server {
 \t\treturn 301 http://www.google.com;\n\t}
 \terror_page 404 /404.html;
 \tlocation /404 {
-\t\troot /var/ww/html;
+\t\troot /var/www/html;
 \t\tinternal;\n\t}\n}" > /etc/nginx/sites-available/default
 service nginx restart
